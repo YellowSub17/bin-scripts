@@ -1,0 +1,45 @@
+#!/bin/bash
+
+clear
+
+seconds=$(echo 60*$1 | bc )
+
+secondsr=$(echo $seconds | awk '{print int($1+0.5)}')
+
+
+start="$(($(date +%s) + $secondsr))"
+echo "Timer started at $(date +'%l:%M:%S %p') for $1 minute(s)"
+
+while [ "$start" -ge `date +%s` ]; do
+    time="$(( $start - `date +%s` ))"
+    printf '%s\r' "$(date -u -d "@$time" +%H:%M:%S)"
+done
+
+printf 'Timer finished at %s\r' "$(date +'%l:%M:%S %p')"
+
+
+while [ 1 -ge 0 ]
+do
+    play -q /usr/share/mint-artwork/sounds/plug.oga 2> /dev/null
+    sleep 5
+done
+
+
+
+
+
+
+#clear
+
+#echo Timer set at $(date +"%l:%M %p" ) for $1 minutes
+
+
+#sleep $(echo 60*$1 | bc )
+
+#echo Timer Finished
+#while [ 1 -ge 0 ]
+#do
+    #play -q /usr/share/mint-artwork/sounds/plug.oga 2> /dev/null
+    #sleep 5
+#done
+

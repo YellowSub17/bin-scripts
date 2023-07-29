@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+echo "ssh -i '~/Documents/phd/race-key.pem' ec2-user@$1"
+ssh -X -i '~/Documents/phd/race-key.pem' ec2-user@$1
+
+
+
+
+

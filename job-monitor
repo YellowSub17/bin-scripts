@@ -1,0 +1,86 @@
+#!/bin/bash
+
+
+clear
+
+jobnames=$1
+
+pscmd () {
+    ps x -o pid=PID -o user=USER -o pcpu=%CPU -o pmem=%MEM -o time=TIME -o command=COMMAND
+}
+
+pshead () {
+    pscmd | head -1
+}
+
+myjobs () {
+    pscmd | grep "$jobnames" | grep -v "grep" | grep -v "$0" 
+}
+
+njobs () {
+    myjobs | wc -l
+}
+
+
+
+
+echo "Monitoring for jobs starting with \"$jobnames\"."
+#pscmd=$(ps x -o pid=PID -o user=USER -o pcpu=%CPU -o pmem=%MEM -o time=TIME -o command=COMMAND)
+#jobsx=$(echo "$pscmd" | grep "$1" | grep -v "grep" | grep -v "$0" )
+#njobs=$(echo "$jobsx" | wc -l)
+echo "    --Found $(njobs) jobs."
+pshead
+myjobs
+
+
+
+sleep 3
+
+while [ "$(njobs)" -ge "1" ]; do
+
+
+    echo "Monitoring for jobs starting with \"$jobnames\"."
+    #pscmd=$(ps x -o pid=PID -o user=USER -o pcpu=%CPU -o pmem=%MEM -o time=TIME -o command=COMMAND  )
+    #jobsx=$(echo "$pscmd" | grep "$1" | grep -v "grep" | grep -v "$0" )
+    #njobs=$(echo "$jobsx" | wc -l)
+
+    echo "    --Found $(njobs) jobs."
+    pshead
+    myjobs
+
+    sleep 3
+    
+done
+
+echo ''
+echo 'All jobs done.'
+printf 'Jobs finished at %s\n' "$(date +'%l:%M:%S %p')"
+
+echo "Job complete." | mutt -s "Job monitor done: $jobnames" patrick.adams.aust@gmail.com
+
+
+while [ 1 -ge 0 ]
+do
+    play -q /usr/share/mint-artwork/sounds/plug.oga 2> /dev/null
+    sleep 5
+done
+
+
+
+
+
+
+####clear
+
+####echo Timer set at $(date +"%l:%M %p" ) for $1 minutes
+
+
+####sleep $(echo 60*$1 | bc )
+
+####echo Timer Finished
+####while [ 1 -ge 0 ]
+####do
+    ####play -q /usr/share/mint-artwork/sounds/plug.oga 2> /dev/null
+    ####sleep 5
+####done
+
