@@ -1,0 +1,23 @@
+#!/usr/bin/env python
+import pyautogui as pyg
+import time
+
+
+
+
+
+while True:
+    # pyg.move(20,20, duration=0.2)
+    # pyg.move(-20,-20, duration=0.2)
+    # time.sleep(10)
+    for i in range(10):
+        print(i, end='\r')
+        time.sleep(i)
+    pyg.click()
+
+
+
+
+
+
+
